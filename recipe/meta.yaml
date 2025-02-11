@@ -1,18 +1,18 @@
 {% set name = "deprecation-alias" %}
-{% set version = "0.3.3" %}
+{% set version = "0.4.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/deprecation-alias-{{ version }}.tar.gz
-  sha256: e73266d4c866c040079d7a047f92ac2cd468b4608032486df1ffd7ef147e6515
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name | replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: a58d2e74491c7834e9d318788da60272fa2f81aeb814b4055a4ba90a0a41740f
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 1
+  number: 0
 
 requirements:
   host:
