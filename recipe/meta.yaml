@@ -10,35 +10,44 @@ source:
   sha256: a58d2e74491c7834e9d318788da60272fa2f81aeb814b4055a4ba90a0a41740f
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<36]
 
 requirements:
   host:
-    - hatchling
-    - hatch-requirements-txt
+    - python
     - pip
-    - python {{ python_min }}
+    - wheel
+    - setuptools
+    - hatch-requirements-txt
   run:
+    - python
     - deprecation >=2.1.0
     - packaging >=20.4
-    - python >={{ python_min }}
+  run_constrained:
+    python !=3.6.0
 
+# We can`t enable pytest because conftest uses the coincidence package, which is unavailable on the main channel.
+# The policy states that packages are not specifically built for testing.
 test:
   imports:
     - deprecation_alias
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
-    - python {{ python_min }}
 
 about:
   home: https://github.com/domdfcoding/deprecation-alias
   summary: A wrapper around 'deprecation' providing support for deprecated aliases.
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  description: A wrapper around 'deprecation' providing support for deprecated aliases.
+  doc_url: https://github.com/domdfcoding/deprecation-alias/blob/v0.4.0/README.rst
+  dev_url: https://github.com/domdfcoding/deprecation-alias
 
 extra:
   recipe-maintainers:
