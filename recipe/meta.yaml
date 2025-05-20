@@ -18,8 +18,7 @@ requirements:
   host:
     - python
     - pip
-    - wheel
-    - setuptools
+    - hatchling
     - hatch-requirements-txt
   run:
     - python
